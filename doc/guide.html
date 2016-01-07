@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, user-scalable=no" />
+		<meta name="author" content="Denpa" />
+		<meta name="generator" content="[denpa@home ~]$ cat /dev/head > /dev/hands" />
+<!--
+
+		ooooo   ooooo  o8o         .   oooo                                     .o.      .o     .o"o.             .o"o.  o.        88
+		`888'   `888'  `"'       .o8   `888                                     888     .8'    "'   `"           "'   `" `8.      .8'
+		 888     888  oooo     .o888oo  888 .oo.    .ooooo.  oooo d8b  .ooooo.  888    .8'              .ooooo.           `8.    .8'
+		 888ooooo888  `888       888    888P"Y88b  d88' `88b `888""8P d88' `88b Y8P    88              d88' `88b           88   .8'
+		 888     888   888       888    888   888  888ooo888  888     888ooo888 `8'    88              888   888           88  .8'
+		 888     888   888       888 .  888   888  888    .o  888     888    .o .o.    `8.             888   888          .8' .8'
+		o888o   o888o o888o      "888" o888o o888o `Y8bod8P' d888b    `Y8bod8P' Y8P     `8.            `Y8bod8P'         .8'  88
+																						 `"                              "'
+-->
+		<title>Chevereto Feeds Mod</title>
+		<script type="text/javascript">
+		if ( !window.requestAnimationFrame ) {
+			window.requestAnimationFrame = ( function() {
+				return window.webkitRequestAnimationFrame ||
+				window.mozRequestAnimationFrame ||
+				window.oRequestAnimationFrame ||
+				window.msRequestAnimationFrame ||
+				function(callback, element ) {
+					window.setTimeout( callback, 1000 / 60 );
+				};
+			} )();
+		}
+
+		var smoothScrollTo = function(element, duration) {
+			var element = document.getElementById(element),
+				offset = element.offsetTop,
+				position = window.pageYOffset,
+				change = offset - position,
+				duration = duration ? duration : 500,
+				startTime = null;
+
+			function easeInOutCubic(t) {
+				return t<.5 ? 4*t*t*t : 4*(--t)*t*t+1;
+			}
+
+			function animateScroll(timestamp) {
+				if (startTime === null) startTime = timestamp;
+				var progress = timestamp - startTime,
+					t = easeInOutCubic(progress / duration),
+					val = position + change * t;
+				window.scrollTo(0, val);
+				if(progress < duration) requestAnimationFrame(animateScroll);
+			}
+			requestAnimationFrame(animateScroll);
+		}
+
+		var generateExamples = function(exampleClass, url) {
+			var examples = document.getElementsByClassName(exampleClass),
+			url = url.trim();
+
+			while(url.charAt(url.length - 1) == '/') {
+				url = url.substring(0, url.length - 1);
+			}
+
+			for (var i = 0, item; item = examples[i]; i++) {
+				item.href = url + item.dataset.path;
+				item.innerHTML = url + item.dataset.path;
+			}
+		}
+
+		window.addEventListener('DOMContentLoaded', function() {
+			var links = document.getElementsByClassName('smooth-scroll'),
+				buttons = document.getElementsByClassName('button'),
+				pages = document.getElementsByClassName('page'),
+				siteInput =  document.getElementById('website-url');
+
+			for (var i = 0, item; item = links[i]; i++) {
+					item.addEventListener('click', function(e) {
+						e.preventDefault();
+						var target = this.href.split('#', 2);
+						smoothScrollTo(target[1], 3000);
+					});
+			}
+
+			for (var i = 0, item; item = buttons[i]; i++) {
+					item.addEventListener('click', function(e) {
+						e.preventDefault();
+						this.children[0].click();
+					});
+			}
+
+			if(siteInput.value !== '') generateExamples('example', siteInput.value);
+			siteInput.addEventListener('change', function(e) { generateExamples('example', this.value) });
+			siteInput.addEventListener('keypress', function(e) {
+				if(e.which == 13) {
+					generateExamples('example', this.value);
+					smoothScrollTo('page-toc', 3000);
+				}
+			});
+		});
+		</script>
+		<style type="text/css">
+			html,body {
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%
+			}
+
+			body {
+				background: url(http://dev.swrn-static.net/chv/feeds/guide/img/whitenoise-361x370.jpg) #036A8D
+			}
+
+			a {
+				text-decoration: none;
+				color: #C76114
+			}
+
+			a:hover {
+				color: #FA9A50
+			}
+
+			div.page-wrapper {
+				margin: 0 auto;
+				position: relative;
+				max-width: 1600px;
+				min-height: 100vh;
+				margin-bottom: 10px
+			}
+
+			div.page {
+				margin: 0 auto;
+				position: relative;
+				max-width: 1280px;
+				min-height: 100vh;
+				text-align: center;
+				background: rgba(255,255,255,0.9);
+				-webkit-box-shadow: 0 0 10px 0 rgba(255,165,0,1);
+				-moz-box-shadow: 0 0 10px 0 rgba(255,165,0,1);
+				box-shadow: 0 0 10px 0 rgba(255,165,0,1);
+				border-right: 1px solid #FFA500;
+				border-left: 1px solid #FFA500;
+			}
+
+			.centered {
+				text-align: center
+			}
+
+			.standout {
+				font-size: 18pt;
+				margin: 20px 0;
+				text-transform: uppercase;
+				font-weight: 700
+			}
+
+			/* Vanity stuff. Doesn't affect readability. */
+			div.category-settings { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/gear.png) no-repeat 0 90% }
+			div.category-toc { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/rss.png) no-repeat 0 90% }
+			div.category-intro { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/books.png) no-repeat 0 90% }
+			div#page-intro-39 { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/heart.png) no-repeat 0 90% }
+			div.category-install { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/install.png) no-repeat 0 90% }
+			div.category-usage { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/usage.png) no-repeat 0 90% }
+			div.category-optim { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/server.png) no-repeat 0 90% }
+			div.category-devel { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/devel.png) no-repeat 0 90% }
+
+			p.input input {
+				font-size: 15pt;
+				width: 50%;
+				min-width: 210px;
+				padding: 5px;
+				border: 3px solid #FFA500;
+				text-align: center;
+				height: 30px;
+				line-height: 30px
+			}
+
+			p.input input:focus {
+				outline: none;
+				-webkit-box-shadow: 0 0 10px 0 rgba(255,165,0,1);
+				-moz-box-shadow: 0 0 10px 0 rgba(255,165,0,1);
+				box-shadow: 0 0 10px 0 rgba(255,165,0,1)
+			}
+
+			div.button {
+				text-transform: uppercase;
+				cursor: pointer;
+				font-wight: bold;
+				color: #FFF;
+				font: 12pt sans-serif
+			}
+
+			div.button:hover {
+				background: rgba(255,165,0,0.5)
+			}
+
+			div.button-continue {
+				border: 1px solid #FFF;
+				width: 200px;
+				height: 30px;
+				line-height: 30px;
+				margin: 0 auto;
+				background: rgba(255,165,0,1)
+			}
+
+			div.button-footer {
+				font-size: 16pt;
+				position: absolute;
+				bottom: 0;
+				text-align: center;
+				width: 100%;
+				height: 50px;
+				line-height: 50px;
+				border-top: 2px solid rgba(0,0,0,0.4);
+				border-radius: 10px 10px 0 0;
+				background: rgba(0,0,0,0.1)
+			}
+
+			div.button-footer:hover {
+				-webkit-box-shadow: 0 -2px 2px 0 rgba(255,165,0,1);
+				-moz-box-shadow: 0 -2px 2px 0 rgba(255,165,0,1);
+				box-shadow: 0 -2px 2px 0 rgba(255,165,0,1);
+				border-top: 2px solid rgba(255,255,255,1)
+			}
+
+			div.button a { color: #FFF }
+
+			div.images-block {
+				min-height: 200px;
+			}
+
+			div.images-block div.image {
+				vertical-align: top;
+				display: inline-block;
+				padding: 10px;
+				margin: 5px;
+				border: 1px solid #FFA500;
+				background: rgba(255,255,255,0.5);
+				background: -moz-linear-gradient(top,rgba(255,255,255,0.5) 0%,rgba(255,255,255,0.5) 80%,rgba(254,254,254,1) 100%);
+				background: -webkit-linear-gradient(top,rgba(255,255,255,0.5) 0%,rgba(255,255,255,0.5) 80%,rgba(254,254,254,1) 100%);
+				background: linear-gradient(to bottom,rgba(255,255,255,0.5) 0%,rgba(255,255,255,0.5) 80%,rgba(254,254,254,1) 100%)
+			}
+
+			div.images-block div.image img {
+				width: 100%;
+				height: auto;
+				display: block;
+			}
+
+			div.images-block div.annotation {
+				height: 35px;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				margin: 0;
+				margin-top: 5px;
+				padding: 0;
+				color: #C76114;
+				font: 10pt sans-serif
+			}
+
+			p.code {
+				border: 1px solid #FFA500;
+				padding: 10px;
+				font: 12pt monospace;
+				word-wrap: break-word
+			}
+
+			div.page-title, div.section-title {
+				margin: 0 auto;
+				padding: 10px;
+				font-family: sans-serif;
+				overflow: hidden;
+				text-overflow: ellipsis
+			}
+
+			div.page-title {
+				color: #FF7F50;
+				width: 80%;
+				font-size: 26pt;
+				border-bottom: 1px solid #FF7F50;
+				text-transform: uppercase
+			}
+
+			div.section-title {
+				color: #FF7F50;
+				width: 80%;
+				font-size: 20pt;
+				text-transform: uppercase
+			}
+
+			div#page-toc div.content,div#page-settings div.content {
+				text-align: center
+			}
+
+			div.content {
+				font-size: 14pt;
+				text-align: left;
+				padding: 0 5%;
+				padding-bottom: 80px
+			}
+
+			ul.table-of-contents,ul.table-of-contents li {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				text-transform: uppercase;
+				font-family: sans-serif
+			}
+
+			ul.table-of-contents li a {
+				font-size: 12pt;
+				color: rgba(0,0,0,0.6);
+				cursor: pointer
+			}
+
+			ul.table-of-contents li a:hover {
+				color: rgba(0,0,0,0.9)
+			}
+
+			ul.table-of-contents li.category {
+				font-size: 18pt;
+				margin-top: 12px;
+				color: rgba(0,0,0,0.8)
+			}
+
+			ul.changelog-item li {
+				list-style-type: circle;
+				list-style-position: inside
+			}
+
+			ul.changelog-item li.changelog-version {
+				list-style-type: none;
+				font-weight: 700
+			}
+
+			ul.thank-you li {
+				margin-top: 20px;
+				list-style-type: none
+			}
+
+			table.comparison {
+				width: 100%;
+				table-layout: fixed;
+				border-spacing: 0;
+				text-align: center;
+				vertical-align: center;
+				font: 12pt sans-serif
+			}
+
+			table.comparison td {
+				padding: 5px
+			}
+
+			table.comparison td:first-child {
+				width: 100px
+			}
+
+			table.comparison thead tr td:not(:first-child) {
+				border-bottom: 1px solid #FFA500
+			}
+
+			table.comparison tbody tr:nth-child(odd) td:not(:first-child) {
+				background: rgba(255,165,0,0.2)
+			}
+		</style>
+	</head>
+	<body>
+		<div class="page-wrapper category-settings" id="page-settings">
+			<div class="page">
+				<div class="page-title">
+					DON'T PANIC ;)
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						Your website
+					</div>
+					<div class="content">
+						<p>
+							Please enter your website url in the box below<br />
+							so examples generated by this guide will be relevant to you.
+						</p>
+						<p class="input">
+							<input id="website-url" type="url" placeholder="http://example.com"/>
+						</p>
+						<div class="button button-continue">
+							<a class="smooth-scroll" href="#page-toc">Continue</a>
+						</div>
+						<p>
+							All operations are handled localy. <br />
+							Your information is safe as it's never really leaves your PC.<br />
+							If you don't trust me look at this page's source or pull out your internet cable :P
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-toc" id="page-toc">
+			<div class="page">
+				<div class="page-title">
+					Chevereto Feeds Mod 0.7.1
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						Table of Contents
+					</div>
+					<div class="content">
+						<ul class="table-of-contents" id="table-of-contents">
+							<li id="intro" class="category">Introduction</li>
+							<li><a class="smooth-scroll" href="#page-intro-about">About</a></li>
+							<li><a class="smooth-scroll" href="#page-intro-formats">RSS and Atom</a></li>
+							<li><a class="smooth-scroll" href="#page-intro-changelog">Changelog</a></li>
+							<li><a class="smooth-scroll" href="#page-intro-39">Acknowledgement</a></li>
+							<li><a class="smooth-scroll" href="#page-intro-license">License</a></li>
+							<li id="install" class="category">Installation</li>
+							<li><a class="smooth-scroll" href="#page-install-mod">Mod</a></li>
+							<li><a class="smooth-scroll" href="#page-install-extra">Theme Customizations</a></li>
+							<li id="usage" class="category">Usage</li>
+							<li><a class="smooth-scroll" href="#page-usage-latest">Latest Images Feed</a></li>
+							<li><a class="smooth-scroll" href="#page-usage-user">User Feed</a></li>
+							<li><a class="smooth-scroll" href="#page-usage-category">Category Feed</a></li>
+							<li><a class="smooth-scroll" href="#page-usage-number">Changing number of images</a></li>
+							<li><a class="smooth-scroll" href="#page-usage-limits">Soft and Hard Limits</a></li>
+							<li><a class="smooth-scroll" href="#page-usage-mikuflick">Breaking the Limit!</a></li>
+							<li id="optim" class="category">Server Optimizations</li>
+							<li><a class="smooth-scroll" href="#page-optim-gzip">Compression</a></li>
+							<li><a class="smooth-scroll" href="#page-optim-fcgicache">FastCGI Cache</a></li>
+							<li id="devel" class="category">Development</li>
+							<li><a class="smooth-scroll" href="#page-devel-custom">Developing a custom XML feed</a></li>
+						</ul>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-settings">Return to the beginning</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-intro" id="page-intro-about">
+			<div class="page">
+				<div class="page-title">
+					Introduction
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						About
+					</div>
+					<div class="content">
+						<p>
+							This mod for chevereto image script adds support for <abbr title="eXtensible Markup Language">XML</abbr> feeds to your website.
+						</p>
+						<p>
+							After <a class="smooth-scroll" href="#page-install-mod">installation</a> you'll be able to get feeds for all recent images uploaded to your site, for a single image category or uploaded by a certain user
+							which you can then use it in any online news aggregators such as <a target="_blank" href="http://feedly.com/">feedly</a>, as a makeshift sitemap for Google Webmasters Tool, to follow your users around or
+							export it to any application that supports RSS or Atom.
+						</p>
+						<p>
+							RSS 2.0 with MRSS support and Atom 1.0 are two most popular types available right out of the box
+							but you can also use provided framework to create XML feed of your own format to use
+							with your very own applications. For details on this see <a class="smooth-scroll" href="#page-devel-custom">development</a>
+							section of this guide.
+						</p>
+						<p>
+							Feeds generated by this mod strictly comply with standards for respective formats so you won't get any incompatibilities with readers.
+						</p>
+						<p class="images centered">
+							<img src="img/valid-rss.png" alt="Valid RSS 2.0" /><img src="img/valid-atom.png" alt="Valid Atom" />
+						</p>
+						<p>
+							Anyway thank you for giving this mod a chance!<br />
+							I hope you find it useful and enjoy it to its fullest.
+						</p>
+						<p>
+							Sincerely,<br />
+							Denis 「denpa-P」 Hoshino(星野デニス)
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-intro" id="page-intro-formats">
+			<div class="page">
+				<div class="page-title">
+					Introduction
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						RSS and Atom
+					</div>
+					<div class="content">
+						<p>
+							Web feeds(sometimes also called news feeds) are an easy way for your users
+							and you to follow updates on your website.<br />
+							Those feed commonly based on <abbr title="eXtensible Markup Language">XML</abbr> and cointain
+							a machine-readable list of latest items added to the website.<br />
+							In chevereto's case these items are images.
+						</p>
+						<p>
+							RSS and Atom are most popular formats of web feeds.
+							Althrough lately their usage shifted from client-side to server-side applications.
+							For example to display list of items from one website on another.
+						</p>
+						<p>
+							Simply speaking RSS is older and more established format while Atom is younger and more advanced format.<br />
+							Here are some differences between them:
+							<table class="comparison">
+								<thead>
+									<tr>
+										<td></td>
+										<td>RSS</td>
+										<td>Atom</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Adoption</td>
+										<td>Older and more supported format</td>
+										<td>Newer format</td>
+									</tr>
+									<tr>
+										<td>Payload</td>
+										<td>Escaped HTML or plain-text</td>
+										<td>Plain text, escaped HTML, XHTML, XML, Base64-encoded binary</td>
+									</tr>
+									<tr>
+										<td>Enclosure</td>
+										<td>Only one enclosure per item is expected</td>
+										<td>Multiple enclosures via link tag</td>
+									</tr>
+									<tr>
+										<td>Description</td>
+										<td>Plain-text description via description tag</td>
+										<td>HTML description via content tag</td>
+									</tr>
+								</tbody>
+							</table>
+						</p>
+						<p>
+							For the most cases you're advised to use Atom and switch to RSS only if Atom isn't supported by your application.
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-intro" id="page-intro-changelog">
+			<div class="page">
+				<div class="page-title">
+					Introduction
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						Changelog
+					</div>
+					<div class="content">
+						<p>
+							Only changes since the previous version are listed here. <br />
+							For a full version history see <a href="ChangeLog.txt">ChangeLog.txt</a> in doc directory.
+						</p>
+						<p>
+							<ul class="changelog-item">
+								<li class="changelog-version">v0.7.1(with XMLight v1.0.6)</li>
+								<li>Merged theme and route file into single route.feeds.php file.</li>
+								<li>Removed feeds.php theme file. (You can now remove feeds.php from your theme dir.)</li>
+								<li>Minor code optimizations.</li>
+							</ul>
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-intro" id="page-intro-39">
+			<div class="page">
+				<div class="page-title">
+					Introduction
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						♡ Thank you! ♡
+					</div>
+					<div class="content">
+						<p>
+							I'd like to thank following people that made this mod possible:
+						</p>
+						<ul class="thank-you">
+							<li>
+								Rodolfo Berrios &lt;<a target="_blank" href="http://rodolfoberrios.com/">http://rodolfoberrios.com/</a>&gt; for his amazing work on chevereto and G\ framework.
+							</li>
+							<li>
+								knova15 and anmolgill at chevereto community for the mod idea.
+							</li>
+							<li>
+								Petri Niittymaki for this guide idea.
+							</li>
+							<li>
+								Ayumi Hoshino(星野あゆみ), my beautiful wife, for being tolerant with my apparent inability to relax even on vacations.
+							</li>
+						</ul>
+						<p class="centered standout">
+							and you!
+						</p>
+						<p class="centered">
+							for checking this mod out.
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-intro" id="page-intro-license">
+			<div class="page">
+				<div class="page-title">
+					Introduction
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						License
+					</div>
+					<div class="content">
+						<p>
+							Copyright (c) 2014, Denis Hoshino<br />
+						</p>
+						<p>
+							Permission is hereby granted, free of charge, to any person obtaining a copy
+							of this software and associated documentation files (the "Software"), to deal
+							in the Software without restriction, including without limitation the rights
+							to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+							copies of the Software, and to permit persons to whom the Software is
+							furnished to do so, subject to the following conditions:
+						</p>
+						<p>
+							The above copyright notice and this permission notice shall be included in<br />
+							all copies or substantial portions of the Software.
+						</p>
+						<p>
+							THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR<br />
+							IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,<br />
+							FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE<br />
+							AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br />
+							LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,<br />
+							OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN<br />
+							THE SOFTWARE.
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-install" id="page-install-mod">
+			<div class="page">
+			<div class="page-title">
+				Installation
+			</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						Mod
+					</div>
+					<div class="content">
+						<p>
+							Installation proccess is extremely simple and straightforward.<br />
+							Just extract contents of chevereto folder from mod archive(chv_feeds_v###.zip) to your chevereto root directory and you're done.
+						</p>
+						<p>
+							Check that it's working by going to <a target="_blank" class="example" data-path="/feeds/?hello" href="http://example.com/feeds/?hello">http://example.com/feeds/?hello</a>.<br />
+							If you see message similar to the one below, then mod is installed correctly.
+							<p class="code">
+								Welcome to CHV\Feeds v0.7.1 with XMLight v1.0.6<br />
+								Modules: CHV\Atom v0.7.1, CHV\Rss v0.7.1<br />
+								Have a nice day!
+							</p>
+						</p>
+						<p>
+							Now go to the <a class="smooth-scroll" href="#page-usage-latest">usage section</a> to start using your feeds or continue to the <a class="smooth-scroll" href="#page-install-extra">next section</a>
+							if you want to customize your chevereto theme to include some basic feed flavouring.
+						</p>
+						<p>
+							Note that this mod doesn't overwrite any default chevereto files and you could easily update chevereto without
+							affecting it in any way.
+						</p>
+						<p>
+							If you used this mod prior to the version 0.7.0(released 2014/11/22) please kindly uninstall it before
+							installing this version.<br />
+							To uninstall previous version, remove /app/routes/route.rss.php, /app/themes/(your_theme)/views/rss.php from your chevereto root directory
+							and install current version overwriting everything if prompted.
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-install" id="page-install-extra">
+			<div class="page">
+				<div class="page-title">
+					Installation
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						Theme Customizations
+					</div>
+					<div class="content">
+						<p>
+							You are suggested to make some changes to your theme to help readers recognize your feeds.
+						</p>
+						<p>
+							If you're using default chevereto theme, you can simply extract contents of "extra/(chevereto_version)/" from the
+							mod archive to your chevereto root to get following basic customizations.
+						</p>
+						<div class="images-block centered">
+								<div class="image">
+									<img src="img/theme-custom-1.png" alt="Users feed icon added for each user." />
+									<div class="annotation">
+										Users feed icon added for each user.
+									</div>
+								</div>
+								<div class="image">
+									<img src="img/theme-custom-2.png" alt="Google Chrome with installed RSS Subscription Extension." />
+									<div class="annotation">
+										Google Chrome with installed RSS Subscription Extension<br />
+										recognises both feed types.
+									</div>
+								</div>
+						</div>
+						<p>
+							Before installing theme customizations please make sure that your chevereto version matches name of extra directory in mod archive.<br />
+							For example if your chevereto version is 3.5.7, then the directory in the mod archive should be named 'extra/3.5.7/'.
+						</p>
+						<p>
+							If you're already have a theme customizations that affect user.php or header.php you'll have to manually add following lines to your theme.
+						</p>
+						<p>
+							To make readers aware of your feeds, add this code anywhere in &lt;head&gt; tag of your /app/themes/(your_theme)/header.php file.
+						</p>
+						<p class="code">
+							&lt;link rel=&quot;alternate&quot; href=&quot;&lt;?php echo G\get_base_url() . 'feeds/rss'; ?&gt;&quot; title=&quot;Recent Images RSS Feed&quot; type=&quot;application/rss+xml&quot;&gt;<br />
+							&lt;link rel=&quot;alternate&quot; href=&quot;&lt;?php echo G\get_base_url() . 'feeds/atom'; ?&gt;&quot; title=&quot;Recent Images Atom Feed&quot; type=&quot;application/atom+xml&quot;&gt;<br />
+							&lt;?php if(G\get_route_name() == 'user') { ?&gt;<br />
+							&lt;link rel=&quot;alternate&quot; href=&quot;&lt;?php echo G\get_base_url() . 'feeds/rss/?user=' . get_user()['username'] ?&gt;&quot; title=&quot;&lt;?php echo get_user()['name'] . '\'s RSS Feed' ?&gt;&quot; type=&quot;application/rss+xml&quot;&gt;<br />
+							&lt;link rel=&quot;alternate&quot; href=&quot;&lt;?php echo G\get_base_url() . 'feeds/atom/?user=' . get_user()['username'] ?&gt;&quot; title=&quot;&lt;?php echo get_user()['name'] . '\'s Atom Feed' ?&gt;&quot; type=&quot;application/atom+xml&quot;&gt;<br />
+							&lt;?php } ?&gt;
+						</p>
+						<p>
+							To add feed icons to the user profiles, insert following code where social icons are located in your theme.<br />
+							With customized default theme find the line that starts with &lt;div class=&quot;user-meta user-social-networks&quot;&gt; in /app/themes/(your_theme)/views/user.php
+							and add this code just before a final closing &lt;/div&gt; in that line.
+						</p>
+						<p class="code">
+							&lt;a class=&quot;icon-feed3&quot; href=&quot;&lt;?php echo G\get_base_url() . 'feeds/atom/?user=' . get_user()[&quot;username&quot;]?&gt;&quot; rel=&quot;nofollow&quot; target=&quot;_blank&quot;&gt;&lt;/a&gt;
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-usage" id="page-usage-latest">
+			<div class="page">
+				<div class="page-title">
+					Usage
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						Latest Images Feed
+					</div>
+					<div class="content">
+						<p>
+							There are two widely used feed types, both of which are supported by this mod - Atom and RSS.
+						</p>
+						<p>
+							While many readers nowadays support both formats, RSS is still considered most supported,
+							so it's safe to use it almost anywhere.<br />
+							Atom on the other hand provides more functionality(for example html markup in content),
+							so if your reader or application supports Atom you should probably use it instead of RSS.
+						</p>
+						<p>
+							You can get a feed of desired format by going to the respective urls:
+							<ul>
+								<li><a target="_blank" class="example" data-path="/feeds/rss" href="http://example.com/feeds/rss">http://example.com/feeds/rss</a> - for RSS 2.0 feed</li>
+								<li><a target="_blank" class="example" data-path="/feeds/atom" href="http://example.com/feeds/atom">http://example.com/feeds/atom</a> - for Atom 1.0 feed</li>
+							</ul>
+						</p>
+						<p>
+							By default when accessed without any parameters these urls provide feeds of 20 latest images uploaded to any category
+							by any user except the private ones and depending on settings nsfw ones.
+						</p>
+						<p>
+							Continue to the <a class="smooth-scroll" href="#page-usage-user">next section</a> to learn about getting other types of feeds for user and category.
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-usage" id="page-usage-user">
+			<div class="page">
+				<div class="page-title">
+					Usage
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						User Feed
+					</div>
+					<div class="content">
+						<p>
+							If you provide 'user' parameter in the feed url, you'll get feed of latest images uploaded by this user - a user's personal feed.
+						</p>
+						<p>
+							This parameter can be used with any type of feed
+							<ul>
+								<li><a target="_blank" class="example" data-path="/feeds/rss?user=someguy" href="http://example.com/feeds/rss?user=someguy">http://example.com/feeds/rss?user=someguy</a> - for RSS 2.0 feed of images uploaded by 'someguy'</li>
+								<li><a target="_blank" class="example" data-path="/feeds/atom?user=somegal" href="http://example.com/feeds/atom?user=somegal">http://example.com/feeds/atom?user=somegal</a> - for Atom 1.0 feed of images uploaded by 'somegal'</li>
+							</ul>
+						</p>
+						<p>
+							Note that this feed will respect privacy and only show image uploaded to user public stream.
+						</p>
+						<p>
+							One exception to this will be when user reading feed from browser with built-in feed support(e.g. Firefox) or extension <br />
+							while being logged into chevereto account.<br />
+							In such cases user will see all his images regardless of privacy.
+						</p>
+						<p>
+							User's personal feed feature different title corresponding to user's full name instead of default website title and description.
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-usage" id="page-usage-category">
+			<div class="page">
+				<div class="page-title">
+					Usage
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						Category Feed
+					</div>
+					<div class="content">
+						<p>
+							If you provide 'category' parameter in the feed url, you'll get a feed of latest images uploaded to the specified category.
+						</p>
+						<p>
+							As with 'user' parameter this one can also be used with any type of feed.
+							<ul>
+								<li><a target="_blank" class="example" data-path="/feeds/rss?category=pianos" href="http://example.com/feeds/rss?category=pianos">http://example.com/feeds/rss?category=pianos</a> - for RSS 2.0 feed of images uploaded to the category 'pianos'</li>
+								<li><a target="_blank" class="example" data-path="/feeds/rss?category=violins" href="http://example.com/feeds/rss?category=violins">http://example.com/feeds/atom?category=violins</a> - for Atom 1.0 feed of images uploaded to the category 'violin'</li>
+							</ul>
+						</p>
+						<p>
+							Both 'user' and 'category' parameters can be used in conjunction with each other to create user's feed of images uploaded to a certain category:
+							<ul>
+								<li><a target="_blank" class="example" data-path="/feeds/rss?user=someguy&category=pianos" href="http://example.com/feeds/rss?user=someguy&category=pianos">http://example.com/feeds/rss?user=someguy&amp;category=pianos</a> - for RSS 2.0 feed of images uploaded to the category 'pianos' by user 'someguy'</li>
+								<li><a target="_blank" class="example" data-path="/feeds/atom?user=somegal&category=violins" href="http://example.com/feeds/atom?user=somegal&amp;category=violins">http://example.com/feeds/atom?user=somegal&amp;category=violins</a> - for Atom 1.0 feed of images uploaded to the category 'violins' by user 'somegal'</li>
+							</ul>
+						</p>
+						<p>
+							When 'category' parameter used alone, feed title is category name and feed description is category description.<br />
+							Hovewer when using 'category' with 'user', feed title will be set to user's full name and description to localized string 'From %c by %u'<br />
+							where '%c' is category name and '%u' is user's full name.
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-usage" id="page-usage-number">
+			<div class="page">
+				<div class="page-title">
+					Usage
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						Changing number of images
+					</div>
+					<div class="content">
+						<p>
+							You can change number of elements in your feed with 'limit' parameter.<br />
+							Hovewer out of security concerns there are some limitations.
+						</p>
+						<p>
+							By default, maximum number of images per feed is hardcoded to 20.<br />
+							You can hovewer override this limit with the methods described in later sections.
+						</p>
+						<p>
+							If you want a feed smaller than 20 images just pass 'limit' parameter to the feed url.
+							This parameter can of course be combined with another ones.
+							<ul>
+								<li><a target="_blank" class="example" data-path="/feeds/rss?limit=5" href="http://example.com/feeds/rss?limit=5">http://example.com/feeds/rss?limit=5</a> - for RSS 2.0 feed of latest 5 images uploaded to your site</li>
+								<li><a target="_blank" class="example" data-path="/feeds/atom?user=somegal&category=violins&limit=1" href="http://example.com/feeds/atom?user=somegal&category=violins&limit=1">http://example.com/feeds/atom?user=somegal&amp;category=violins&amp;limit=1</a> - for Atom 1.0 feed containing only latest image uploaded to the category 'violins' by user 'somegal'</li>
+							</ul>
+						</p>
+						<p>
+							This way you can optimize traffic by requesting feeds of required size.
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-usage" id="page-usage-limits">
+			<div class="page">
+				<div class="page-title">
+					Usage
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						Soft and Hard Limits
+					</div>
+					<div class="content">
+						<p>
+							This mod implements two types of limits.<br />
+							Soft limit that can be reached by anybody and hard limit that can only be
+							reached when chevereto api v1 key is present in the request.
+						</p>
+						<p>
+							This was done in such a way to protect a server from resource intensive operation of processing multiple images on one request.
+							Otherwise if potential attacker specifies a huge limit (e. g. 500000) and you have that many images, server will try
+							it's hardest to fetch them all from the db and make a feed out of them which will probably take up a lot of CPU time.
+						</p>
+						<p>
+							Scared enough yet?<br />
+							Now think that a mere hundred of such requests and your server will probably become unavailable without even a need to organising DDoS attack.
+						</p>
+						<p>
+							That's why limiting number of elements in the feed is important and this mod has pretty strict limits.
+						</p>
+						<p>
+							By default soft limit which can be reached just with 'limit' param is <b>20 images</b>.
+							Anybody can request feed of this size and less, but not larger.
+							Hard limit is <b>100 images</b> per feed and can be reached by combining 'limit' param and Chevereto API v1 key as a 'key' param.
+							<ul>
+								<li><a target="_blank" class="example" data-path="/feeds/rss?limit=10" href="http://example.com/feeds/rss?limit=10">http://example.com/feeds/rss?limit=10</a> - will return a feed of latest 10 images;</li>
+								<li><a target="_blank" class="example" data-path="/feeds/rss?limit=100" href="http://example.com/feeds/rss?limit=100">http://example.com/feeds/rss?limit=100</a> - will return 404 error;</li>
+								<li><a target="_blank" class="example" data-path="/feeds/rss?limit=100&key=your_api_key" href="http://example.com/feeds/rss?limit=100&key=your_api_key">http://example.com/feeds/rss?limit=100&amp;key=your_api_key</a> - will return a feed of latest 100 images if api v1 key is correct.</li>
+							</ul>
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-usage" id="page-usage-mikuflick">
+			<div class="page">
+				<div class="page-title">
+					Usage
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						Breaking the Limit!
+					</div>
+					<div class="content">
+						<p>
+							If you don't like default values for hard and soft limits you can change it.
+						</p>
+						<p>
+							Open /app/routes/route.feeds.php in your chevereto root with a text editor of your choose and find<br />
+							two variables $softLimit and $hardLimit at the top of it.
+							<p class="code">
+								/* Max images to output regardless of presence of chevereto api v1 key. */<br />
+								$softLimit = 20;<br />
+								/* Max images to output in presence of chevereto api v1 key. */<br />
+								$hardLimit = 100;
+							</p>
+						</p>
+						<p>
+							By editing these two variables you can respectively change soft and hard limit(duh :/).
+						</p>
+						<p>
+							Remember that by carelessly changing these variables you can bring calamity upon yourself.
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-optim" id="page-optim-gzip">
+			<div class="page">
+				<div class="page-title">
+					Server Optimizations
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						Compression
+					</div>
+					<div class="content">
+						<p>
+							To reduce traffic and feed load time you're advised to use compression.<br />
+							By design XML is redundand format with a lot of repeating characters so compression
+							can have a huge effect.
+						</p>
+						<p>
+							While this mod provides built-in compression through the use of ob_gziphandler,<br />
+							you are strongly advised to let your webserver handle it.
+						</p>
+						<p>
+							If you're using apache webserver, add this to you .htaccess file:
+							<p class="code">
+								&lt;ifModule mod_deflate.c&gt;<br />
+								  &nbsp;# Compress RSS, Atom and XML<br />
+								  &nbsp;AddOutputFilterByType DEFLATE application/rss+xml<br />
+								  &nbsp;AddOutputFilterByType DEFLATE application/atom+xml<br />
+								  &nbsp;AddOutputFilterByType DEFLATE application/xml<br />
+								  &nbsp;AddOutputFilterByType DEFLATE text/xml<br />
+								  &nbsp;Header append Vary User-Agent <br />
+								&lt;/ifModule&gt;
+							</p>
+							This will only compress RSS, Atom and XML.<br />
+							However feel free to add any mime type you want.<br />
+							e. g.<br />
+							text/html to also compress html output or text/css to compress styles
+						</p>
+						<p>
+							If you're using nginx, add this to the http, server or location directive of your nginx.conf:
+							<p class="code">
+								gzip on;<br />
+								gzip_proxied any;<br />
+								# Compress RSS, Atom and XML<br />
+								gzip_types<br />
+										&nbsp;application/rss+xml<br />
+										&nbsp;application/atom+xml<br />
+										&nbsp;application/xml<br />
+										&nbsp;text/xml;<br />
+								gzip_comp_level 6;<br />
+								gzip_vary on;
+							</p>
+							As with above this will only compress RSS, Atom and XML but you can add any mime type you want.
+						</p>
+						<p>
+							If you don't have access to webserver configuration files you can enable built-in compression by changing $gzip variable at the top of /app/routes/route.feeds.php
+							to <b>true</b>:
+							<p class="code">
+								/* Built-in GZip Compression */<br />
+								$gzip = true;
+							</p>
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-optim" id="page-optim-fcgicache">
+			<div class="page">
+				<div class="page-title">
+					Server Optimizations
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						FastCGI Cache
+					</div>
+					<div class="content">
+						<p>
+							If you're using nginx webserver with php running in fastcgi mode, you can use nginx fastcgi cache to reduce strain<br /> that feeds puts on your server and at the same time greatly improve feeds performance.
+						</p>
+						<p>
+							The feeds will generate only once in a while and stored in the cache until they expire.<br />
+							While not expired the feed will be served from the cache as static file<br />
+							without any need for time and resource consuming tasks.</br >
+						</p>
+						<p>
+							For more information about configuration below go to <a target="_blank" href="http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html">nginx fastcgi documentation page</a>.
+						</p>
+						<p>
+							To start caching you first must define cache path anywhere in 'http' section of your nginx.conf file.
+							<p class="code">
+							   fastcgi_cache_path  /tmp/nginx/cache<br />
+													levels=1:2 keys_zone=fastcgi_cache:32m max_size=256m inactive=60m;
+							</p>
+						</p>
+						<p>
+							To enable cache for the feeds only and not for your entire website use nginx's map directive.
+							<p class="code">
+									map $request_uri $nocache {<br />
+											default 1;<br />
+											~/feeds/  0;<br />
+									}
+							</p>
+						</p>
+						<p>
+							Then put the following inside .php location(where fastcgi_pass directive is located) of your 'server' directive in nginx.conf.
+							<p class="code">
+								add_header X-FastCGI-Cache $upstream_cache_status;<br />
+								fastcgi_ignore_headers Cache-Control Expires Set-Cookie;<br />
+								fastcgi_cache_key "$scheme$request_method$host$request_uri$cookie_user_selected_lang";<br />
+								fastcgi_cache fastcgi_cache;<br />
+								fastcgi_no_cache $nocache;<br />
+								fastcgi_cache_valid 200 10m;<br />
+								fastcgi_cache_use_stale updating error timeout invalid_header http_500;
+							</p>
+						</p>
+						<p>
+							With this settings cache expires after 10 minutes so your feed only needed to be generated once in 10 minutes.<br />
+							To adjust expiration time you can change 'fastcgi_cache_valid 200 10m' string to a different value.
+						</p>
+						<p>
+							You can use <a target="_blank" href="http://web-sniffer.net/">web-sniffer</a> to check that your cache is working.
+						</p>
+						<p>
+							Put <a target="_blank" class="example" data-path="/feeds/atom" href="http://example.com/feeds/atom">http://example.com/feeds/atom</a> in HTTP(S)-URL field and
+							leave other settings default, then enter the captcha and click Submit.
+						</p>
+						<p>
+							You should see 'X-FastCGI-Cache: MISS' in HTTP Response Header section. <br />
+							Click submit again and check that X-FastCGI-Cache header changed to 'X-FastCGI-Cache: HIT'.<br />
+						</p>
+						<p>
+							This confirms that second response came from cache.
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper category-devel" id="page-devel-custom">
+			<div class="page">
+				<div class="page-title">
+					Development
+				</div>
+				<div class="section-wrapper">
+					<div class="section-title">
+						Developing a custom XML feed
+					</div>
+					<div class="content">
+						<p>
+							If you want to create you own custom XML feed to use with your application,<br />
+							you can use this mod as a simple framework for this task.
+						</p>
+						<p>
+							For the feed module to be properly recognized, you'll need to use FeedModule interface.<br />
+							To do so define your class like this:<br />
+							<p class="code">
+								class yourClass implements FeedModule {<br />
+									...<br />
+								}<br />
+							</p>
+							<i>Here and later 'yourClass' is a placeholder for your class name.</i>
+						</p>
+						<p>
+							The FeedModule interface resides in /app/lib/classes/class.feedmodule.php.<br />
+							File is heavily commented, so you can use it as a reference when creating your own class.
+						</p>
+						<p>
+							You module MUST contain at least functions defined by FeedModule interface.<br />
+							To see a working example of custom feed module be sure to check out class.xapi.php in examples directory of mod archive.
+						</p>
+						<p>
+							After you created your class, save it to /app/lib/classes/ directory as class.yourclass.php.
+						</p>
+						<p>
+							Then you'll need to add your class to the $feedTypes variable in /app/routes/route.feeds.php.
+							<p class="code">
+								/* Available feed types. 'url-key' => 'classname' */<br />
+								$feedTypes = ['atom' => 'CHV\Atom', 'rss' => 'CHV\Rss', 'yourfeed' => 'CHV\yourClass'];
+							</p>
+						</p>
+						<p>
+							Check that your custom feed is recognized by going to <a target="_blank" class="example" data-path="/feeds/?hello" href="http://example.com/feeds/?hello">http://example.com/feeds/?hello</a>.<br />
+							It's class name and version should be listed in Modules.
+						</p>
+						<p>
+							Your feed should now be available at <a target="_blank" class="example" data-path="/feeds/yourfeed" href="http://example.com/feeds/yourfeed">http://example.com/feeds/yourfeed</a>.
+						</p>
+					</div>
+					<div class="button button-footer">
+						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

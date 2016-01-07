@@ -1,0 +1,67 @@
+﻿v0.7.1(with XMLight v1.0.6) - 2014/01/26
+	Merged theme and route file into single route.feeds.php file.
+	Removed feeds.php theme file.
+	Minor code optimizations.
+
+v0.7.0(with XMLight v1.0.6) - 2014/11/22
+	Added Atom 1.0 feed support.
+	Added hard and soft limits on feed size.
+	Added interface to create a custom XML feed.
+	Reworked url scheme to use parameters.
+	Added license information(MIT License).
+	Created kinda helpful guide(that you're reading right now).
+
+v0.6.1(with XMLight v1.0.3) - 2014/11/11
+	Moved mod version information to <generator> element in feed.
+	Moved feed items handling from rss.php theme file to class.rss.php.
+	Added check for nonexistent categories in RSS route.
+	[Regression]Removed mod-version url.
+	Fixed a bunch of rare bugs.
+	Done with long changelists for a long time.(One can only hope... 八(＾□＾*)ｵﾈｶﾞｲ!!)
+	[XMLight]Optimized memory consumption.
+	[XMLight]Added new ways to add children elements(append and prepend from an array).
+	[XMLight]Implemented better handling of elements indexes.
+​
+v0.6.0(with XMLight v1.0.0) - 2014/10/30
+	Removed dependency on SimpleXML PHP extension.
+	Wrote my own tiny XML class called XMLight.
+	Finally wrote a separate RSS class instead of keeping cluttering up rss.php theme file.
+	Changed versioning scheme.
+	Added mod-version url(e.g. yoursite.com/rss/rss-mod-version) for debugging purposes.
+	General code cleanup and prettification.
+​
+v0.5d(with SimpleXML)
+	Fixed "division by zero" bug. (Thanks to mydive for finding it)
+	Implemented available image sizes detection.
+​
+v0.5c(with SimpleXML)
+	user.php update for chevereto 3.5.5.
+	Relevant only for extra theme customizations users.
+​
+v0.5b(with SimpleXML)
+	Compatibility update for chevereto 3.5.0.
+​
+v0.5a(with SimpleXML)
+	For now probably the last update featurewise.
+	Added some extra RSS flavoring for default chevereto theme.
+	Married my wonderful wife Ayumi! ｡^‿^｡
+​
+v0.5(with SimpleXML)
+	Added per-user feed support.
+	Mod will automatically guess request type.
+	(see updated instructions and introduction above)
+​
+v0.3b(with SimpleXML)
+	Compatibility update for chevereto 3.4.5.
+​
+v0.3(with SimpleXML)
+	Added MRSS support.
+	Code cleanup.
+​
+v0.2(with SimpleXML)
+	Simple framework to produce a valid XML from an array.
+	Added categories support (http://yoursite.com/rss/%category-url-key%).
+	Fixed timezone issue.
+​
+v0.1(with a least 100% more nuts)
+	Initial release.​

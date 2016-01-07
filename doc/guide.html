@@ -107,7 +107,7 @@
 			}
 
 			body {
-				background: url(http://dev.swrn-static.net/chv/feeds/guide/img/whitenoise-361x370.jpg) #036A8D
+				background: url(http://swrn-static.net/dev/chv/feeds/doc/img/whitenoise-361x370.jpg) #036A8D
 			}
 
 			a {
@@ -153,14 +153,14 @@
 			}
 
 			/* Vanity stuff. Doesn't affect readability. */
-			div.category-settings { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/gear.png) no-repeat 0 90% }
-			div.category-toc { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/rss.png) no-repeat 0 90% }
-			div.category-intro { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/books.png) no-repeat 0 90% }
-			div#page-intro-39 { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/heart.png) no-repeat 0 90% }
-			div.category-install { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/install.png) no-repeat 0 90% }
-			div.category-usage { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/usage.png) no-repeat 0 90% }
-			div.category-optim { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/server.png) no-repeat 0 90% }
-			div.category-devel { background: url(http://dev.swrn-static.net/chv/feeds/guide/img/devel.png) no-repeat 0 90% }
+			div.category-settings { background: url(http://swrn-static.net/dev/chv/feeds/doc/img/gear.png) no-repeat 0 90% }
+			div.category-toc { background: url(http://swrn-static.net/dev/chv/feeds/doc/img/rss.png) no-repeat 0 90% }
+			div.category-intro { background: url(http://swrn-static.net/dev/chv/feeds/doc/img/books.png) no-repeat 0 90% }
+			div#page-intro-39 { background: url(http://swrn-static.net/dev/chv/feeds/doc/img/heart.png) no-repeat 0 90% }
+			div.category-install { background: url(http://swrn-static.net/dev/chv/feeds/doc/img/install.png) no-repeat 0 90% }
+			div.category-usage { background: url(http://swrn-static.net/dev/chv/feeds/doc/img/usage.png) no-repeat 0 90% }
+			div.category-optim { background: url(http://swrn-static.net/dev/chv/feeds/doc/img/server.png) no-repeat 0 90% }
+			div.category-devel { background: url(http://swrn-static.net/dev/chv/feeds/doc/img/devel.png) no-repeat 0 90% }
 
 			p.input input {
 				font-size: 15pt;
@@ -260,7 +260,9 @@
 				border: 1px solid #FFA500;
 				padding: 10px;
 				font: 12pt monospace;
-				word-wrap: break-word
+				word-wrap: break-word;
+				overflow: auto;
+				white-space: pre
 			}
 
 			div.page-title, div.section-title {
@@ -494,7 +496,7 @@
 							a machine-readable list of latest items added to the website.<br />
 							In chevereto's case these items are images.
 						</p>
-						<p>
+						<p>
 							RSS and Atom are most popular formats of web feeds.
 							Althrough lately their usage shifted from client-side to server-side applications.
 							For example to display list of items from one website on another.
@@ -669,24 +671,22 @@
 							Just extract contents of chevereto folder from mod archive(chv_feeds_v###.zip) to your chevereto root directory and you're done.
 						</p>
 						<p>
-							Check that it's working by going to <a target="_blank" class="example" data-path="/feeds/?hello" href="http://example.com/feeds/?hello">http://example.com/feeds/?hello</a>.<br />
-							If you see message similar to the one below, then mod is installed correctly.
-							<p class="code">
-								Welcome to CHV\Feeds v0.7.1 with XMLight v1.0.6<br />
-								Modules: CHV\Atom v0.7.1, CHV\Rss v0.7.1<br />
-								Have a nice day!
-							</p>
+							Ensure that it's working by going to <a target="_blank" class="example" data-path="/feeds/?hello" href="http://example.com/feeds/?hello">http://example.com/feeds/?hello</a>.<br />
+							If you're seeing message similar to the one below, then mod was installed correctly.
+<p class="code">Welcome to CHV\Feeds v0.7.1 with XMLight v1.0.6
+Modules: CHV\Atom v0.7.1, CHV\Rss v0.7.1
+Have a nice day!</p>
 						</p>
 						<p>
 							Now go to the <a class="smooth-scroll" href="#page-usage-latest">usage section</a> to start using your feeds or continue to the <a class="smooth-scroll" href="#page-install-extra">next section</a>
 							if you want to customize your chevereto theme to include some basic feed flavouring.
 						</p>
 						<p>
-							Note that this mod doesn't overwrite any default chevereto files and you could easily update chevereto without
+							Note that this mod doesn't overwrite any default chevereto files and you can easily update chevereto without
 							affecting it in any way.
 						</p>
 						<p>
-							If you used this mod prior to the version 0.7.0(released 2014/11/22) please kindly uninstall it before
+							If you were using this mod prior to the version 0.7.0(released 2014/11/22) please kindly uninstall it before
 							installing this version.<br />
 							To uninstall previous version, remove /app/routes/route.rss.php, /app/themes/(your_theme)/views/rss.php from your chevereto root directory
 							and install current version overwriting everything if prompted.
@@ -738,24 +738,20 @@
 							If you're already have a theme customizations that affect user.php or header.php you'll have to manually add following lines to your theme.
 						</p>
 						<p>
-							To make readers aware of your feeds, add this code anywhere in &lt;head&gt; tag of your /app/themes/(your_theme)/header.php file.
+							To make readers aware of your feeds, paste this code in /app/themes/(your_theme)/custom_hooks/head.php file.
 						</p>
-						<p class="code">
-							&lt;link rel=&quot;alternate&quot; href=&quot;&lt;?php echo G\get_base_url() . 'feeds/rss'; ?&gt;&quot; title=&quot;Recent Images RSS Feed&quot; type=&quot;application/rss+xml&quot;&gt;<br />
-							&lt;link rel=&quot;alternate&quot; href=&quot;&lt;?php echo G\get_base_url() . 'feeds/atom'; ?&gt;&quot; title=&quot;Recent Images Atom Feed&quot; type=&quot;application/atom+xml&quot;&gt;<br />
-							&lt;?php if(G\get_route_name() == 'user') { ?&gt;<br />
-							&lt;link rel=&quot;alternate&quot; href=&quot;&lt;?php echo G\get_base_url() . 'feeds/rss/?user=' . get_user()['username'] ?&gt;&quot; title=&quot;&lt;?php echo get_user()['name'] . '\'s RSS Feed' ?&gt;&quot; type=&quot;application/rss+xml&quot;&gt;<br />
-							&lt;link rel=&quot;alternate&quot; href=&quot;&lt;?php echo G\get_base_url() . 'feeds/atom/?user=' . get_user()['username'] ?&gt;&quot; title=&quot;&lt;?php echo get_user()['name'] . '\'s Atom Feed' ?&gt;&quot; type=&quot;application/atom+xml&quot;&gt;<br />
-							&lt;?php } ?&gt;
-						</p>
+<p class="code">&lt;link rel=&quot;alternate&quot; href=&quot;&lt;?php echo G\get_base_url() . '/feeds/rss'; ?&gt;&quot; title=&quot;Recent Images RSS Feed&quot; type=&quot;application/rss+xml&quot;&gt;
+&lt;link rel=&quot;alternate&quot; href=&quot;&lt;?php echo G\get_base_url() . '/feeds/atom'; ?&gt;&quot; title=&quot;Recent Images Atom Feed&quot; type=&quot;application/atom+xml&quot;&gt;
+&lt;?php if(G\is_route('user')) { ?&gt;
+&lt;link rel=&quot;alternate&quot; href=&quot;&lt;?php echo G\get_base_url() . '/feeds/rss/?user=' . get_user()['username'] ?&gt;&quot; title=&quot;&lt;?php echo get_user()['name'] . '\'s RSS Feed' ?&gt;&quot; type=&quot;application/rss+xml&quot;&gt;
+&lt;link rel=&quot;alternate&quot; href=&quot;&lt;?php echo G\get_base_url() . '/feeds/atom/?user=' . get_user()['username'] ?&gt;&quot; title=&quot;&lt;?php echo get_user()['name'] . '\'s Atom Feed' ?&gt;&quot; type=&quot;application/atom+xml&quot;&gt;
+&lt;?php } ?&gt;</p>
 						<p>
 							To add feed icons to the user profiles, insert following code where social icons are located in your theme.<br />
 							With customized default theme find the line that starts with &lt;div class=&quot;user-meta user-social-networks&quot;&gt; in /app/themes/(your_theme)/views/user.php
 							and add this code just before a final closing &lt;/div&gt; in that line.
 						</p>
-						<p class="code">
-							&lt;a class=&quot;icon-feed3&quot; href=&quot;&lt;?php echo G\get_base_url() . 'feeds/atom/?user=' . get_user()[&quot;username&quot;]?&gt;&quot; rel=&quot;nofollow&quot; target=&quot;_blank&quot;&gt;&lt;/a&gt;
-						</p>
+<p class="code">&lt;a class=&quot;icon-feed3&quot; href=&quot;&lt;?php echo G\get_base_url() . '/feeds/atom/?user=' . get_user()[&quot;username&quot;]?&gt;&quot; rel=&quot;nofollow&quot; target=&quot;_blank&quot;&gt;&lt;/a&gt;</p>
 					</div>
 					<div class="button button-footer">
 						<a class="smooth-scroll" href="#page-toc">Table of Contents</a>
@@ -976,12 +972,10 @@
 						<p>
 							Open /app/routes/route.feeds.php in your chevereto root with a text editor of your choose and find<br />
 							two variables $softLimit and $hardLimit at the top of it.
-							<p class="code">
-								/* Max images to output regardless of presence of chevereto api v1 key. */<br />
-								$softLimit = 20;<br />
-								/* Max images to output in presence of chevereto api v1 key. */<br />
-								$hardLimit = 100;
-							</p>
+<p class="code">/* Max images to output regardless of presence of chevereto api v1 key. */
+$softLimit = 20;
+/* Max images to output in presence of chevereto api v1 key. */
+$hardLimit = 100;</p>
 						</p>
 						<p>
 							By editing these two variables you can respectively change soft and hard limit(duh :/).
@@ -1017,16 +1011,14 @@
 						</p>
 						<p>
 							If you're using apache webserver, add this to you .htaccess file:
-							<p class="code">
-								&lt;ifModule mod_deflate.c&gt;<br />
-								  &nbsp;# Compress RSS, Atom and XML<br />
-								  &nbsp;AddOutputFilterByType DEFLATE application/rss+xml<br />
-								  &nbsp;AddOutputFilterByType DEFLATE application/atom+xml<br />
-								  &nbsp;AddOutputFilterByType DEFLATE application/xml<br />
-								  &nbsp;AddOutputFilterByType DEFLATE text/xml<br />
-								  &nbsp;Header append Vary User-Agent <br />
-								&lt;/ifModule&gt;
-							</p>
+<p class="code">&lt;ifModule mod_deflate.c&gt;
+	# Compress RSS, Atom and XML
+	AddOutputFilterByType DEFLATE application/rss+xml
+	AddOutputFilterByType DEFLATE application/atom+xml
+	AddOutputFilterByType DEFLATE application/xml
+	AddOutputFilterByType DEFLATE text/xml
+	Header append Vary User-Agent
+&lt;/ifModule&gt;</p>
 							This will only compress RSS, Atom and XML.<br />
 							However feel free to add any mime type you want.<br />
 							e. g.<br />
@@ -1034,27 +1026,23 @@
 						</p>
 						<p>
 							If you're using nginx, add this to the http, server or location directive of your nginx.conf:
-							<p class="code">
-								gzip on;<br />
-								gzip_proxied any;<br />
-								# Compress RSS, Atom and XML<br />
-								gzip_types<br />
-										&nbsp;application/rss+xml<br />
-										&nbsp;application/atom+xml<br />
-										&nbsp;application/xml<br />
-										&nbsp;text/xml;<br />
-								gzip_comp_level 6;<br />
-								gzip_vary on;
-							</p>
+<p class="code">gzip on;
+gzip_proxied any;
+# Compress RSS, Atom and XML
+gzip_types
+	application/rss+xml
+	application/atom+xml
+	application/xml
+	text/xml;
+gzip_comp_level 6;
+gzip_vary on;</p>
 							As with above this will only compress RSS, Atom and XML but you can add any mime type you want.
 						</p>
 						<p>
 							If you don't have access to webserver configuration files you can enable built-in compression by changing $gzip variable at the top of /app/routes/route.feeds.php
 							to <b>true</b>:
-							<p class="code">
-								/* Built-in GZip Compression */<br />
-								$gzip = true;
-							</p>
+<p class="code">/* Built-in GZip Compression */
+$gzip = true;</p>
 						</p>
 					</div>
 					<div class="button button-footer">
@@ -1086,31 +1074,28 @@
 						</p>
 						<p>
 							To start caching you first must define cache path anywhere in 'http' section of your nginx.conf file.
-							<p class="code">
-							   fastcgi_cache_path  /tmp/nginx/cache<br />
-													levels=1:2 keys_zone=fastcgi_cache:32m max_size=256m inactive=60m;
-							</p>
+<p class="code">fastcgi_cache_path /tmp/nginx/cache
+			levels=1:2 keys_zone=fastcgi_cache:32m max_size=256m inactive=60m;</p>
 						</p>
 						<p>
 							To enable cache for the feeds only and not for your entire website use nginx's map directive.
-							<p class="code">
-									map $request_uri $nocache {<br />
-											default 1;<br />
-											~/feeds/  0;<br />
-									}
-							</p>
+<p class="code">map $request_uri $nocache {
+	default		1;
+	~^/feeds/(*.)$	0;
+}</p>
 						</p>
 						<p>
 							Then put the following inside .php location(where fastcgi_pass directive is located) of your 'server' directive in nginx.conf.
-							<p class="code">
-								add_header X-FastCGI-Cache $upstream_cache_status;<br />
-								fastcgi_ignore_headers Cache-Control Expires Set-Cookie;<br />
-								fastcgi_cache_key "$scheme$request_method$host$request_uri$cookie_user_selected_lang";<br />
-								fastcgi_cache fastcgi_cache;<br />
-								fastcgi_no_cache $nocache;<br />
-								fastcgi_cache_valid 200 10m;<br />
-								fastcgi_cache_use_stale updating error timeout invalid_header http_500;
-							</p>
+<p class="code">add_header X-FastCGI-Cache $upstream_cache_status;
+
+fastcgi_ignore_headers Cache-Control Expires Set-Cookie;
+
+fastcgi_cache fastcgi_cache;
+fastcgi_cache_key "$scheme$request_method$host$request_uri$cookie_user_selected_lang";
+fastcgi_cache_valid 200 10m;
+fastcgi_cache_use_stale updating error timeout invalid_header http_500;
+
+fastcgi_no_cache $nocache;</p>
 						</p>
 						<p>
 							With this settings cache expires after 10 minutes so your feed only needed to be generated once in 10 minutes.<br />
@@ -1154,11 +1139,9 @@
 						<p>
 							For the feed module to be properly recognized, you'll need to use FeedModule interface.<br />
 							To do so define your class like this:<br />
-							<p class="code">
-								class yourClass implements FeedModule {<br />
-									...<br />
-								}<br />
-							</p>
+<p class="code">class yourClass implements FeedModule {
+	...
+}</p>
 							<i>Here and later 'yourClass' is a placeholder for your class name.</i>
 						</p>
 						<p>
@@ -1174,10 +1157,8 @@
 						</p>
 						<p>
 							Then you'll need to add your class to the $feedTypes variable in /app/routes/route.feeds.php.
-							<p class="code">
-								/* Available feed types. 'url-key' => 'classname' */<br />
-								$feedTypes = ['atom' => 'CHV\Atom', 'rss' => 'CHV\Rss', 'yourfeed' => 'CHV\yourClass'];
-							</p>
+<p class="code">/* Available feed types. 'url-key' => 'classname' */
+$feedTypes = ['atom' => 'CHV\Atom', 'rss' => 'CHV\Rss', 'yourfeed' => 'CHV\yourClass'];</p>
 						</p>
 						<p>
 							Check that your custom feed is recognized by going to <a target="_blank" class="example" data-path="/feeds/?hello" href="http://example.com/feeds/?hello">http://example.com/feeds/?hello</a>.<br />

@@ -3,7 +3,7 @@
 	Removed feeds.php theme file.
 	Minor code optimizations.
 
-v0.7.0(with XMLight v1.0.6) - 2014/11/22
+v0.7.0(with XMLight v1.0.6) - 22/11/2014
 	Added Atom 1.0 feed support.
 	Added hard and soft limits on feed size.
 	Added interface to create a custom XML feed.
@@ -11,7 +11,7 @@ v0.7.0(with XMLight v1.0.6) - 2014/11/22
 	Added license information(MIT License).
 	Created kinda helpful guide(that you're reading right now).
 
-v0.6.1(with XMLight v1.0.3) - 2014/11/11
+v0.6.1(with XMLight v1.0.3) - 11/11/2014
 	Moved mod version information to <generator> element in feed.
 	Moved feed items handling from rss.php theme file to class.rss.php.
 	Added check for nonexistent categories in RSS route.
@@ -22,7 +22,7 @@ v0.6.1(with XMLight v1.0.3) - 2014/11/11
 	[XMLight]Added new ways to add children elements(append and prepend from an array).
 	[XMLight]Implemented better handling of elements indexes.
 ​
-v0.6.0(with XMLight v1.0.0) - 2014/10/30
+v0.6.0(with XMLight v1.0.0) - 10/30/2014
 	Removed dependency on SimpleXML PHP extension.
 	Wrote my own tiny XML class called XMLight.
 	Finally wrote a separate RSS class instead of keeping cluttering up rss.php theme file.

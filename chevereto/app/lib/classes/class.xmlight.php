@@ -45,7 +45,7 @@ class XMLight {
 	public $index = 0;
 	protected $xml = '';
 
-	public static $version = '1.0.6';	// Class version.
+	public static $version = '1.0.7';	// Class version.
 
 	public static function getVersion() {
 		return self::$version;

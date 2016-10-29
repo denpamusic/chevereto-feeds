@@ -39,7 +39,7 @@ interface FeedModule {
 	/*
 		Mod version constant. Used in generation of generator tag(pun intended :P).
 	*/
-	const modVersion = '0.7.3';
+	const modVersion = '3.8.6-2';
 
 	/*
 		Class version function.

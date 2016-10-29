@@ -101,22 +101,9 @@ class Atom implements FeedModule {
 
 	public function setUser(Array $user) {
 		$this->user = $user;
-
-		if( isset($this->category) ) {
-			$description = _s( 'From %a by %u', array(
-				'%a' => $this->category['name'],
-				'%u' => $this->user['name']
-			));
-		} else {
-			$description = _s( 'From %a by %u', array(
-				'%a' => _s("%s's images", $this->user['name_short']),
-				'%u' => $this->user['name']
-			));
-		}
-
 		$this->overrideElements(array(
 				'title' => $this->user['name'],
-				'subtitle' => $description
+				'subtitle' => _s('From %s', ['%s' => '"' . ( isset($this->category) ? $this->category['name'] : _s("%s's images", $this->user['name_short']) )]) . '" ' . _s('by %u', ['%u' => $this->user['name']]),
 		));
 		$this->setElementAttributes( 'link', array( 'href' => $this->user['url'] ) );
 		$this->setLogo( array('logo' => $this->user['avatar']['url']) );
@@ -139,7 +126,7 @@ class Atom implements FeedModule {
 
 	public function addImage(Array $image) {
 		$entry = $this->feed->appendNode('entry');
-		$entry->appendNode('title', $image['name']);
+		$entry->appendNode('title', $image['title']);
 		$entry->appendNode('link', '', array(
 			'rel' => 'alternate',
 			'type' => 'text/html',

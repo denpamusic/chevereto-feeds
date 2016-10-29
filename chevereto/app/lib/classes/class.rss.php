@@ -105,19 +105,9 @@ class Rss implements FeedModule {
 
 	public function setUser(Array $user) {
 		$this->user = $user;
-
-		if( isset($this->category) ) {
-			$description = _s( 'From %a by %u', array('%a' => $this->category['name'], '%u' => $this->user['name']) );
-		} else {
-			$description = _s( 'From %a by %u', array(
-				'%a' => _s("%s's images", $this->user['name_short']),
-				'%u' => $this->user['name']
-			));
-		}
-
 		$this->overrideElements(array(
 				'title' => $this->user['name'],
-				'description' => $description,
+				'description' => _s('From %s', ['%s' => '"' . ( isset($this->category) ? $this->category['name'] : _s("%s's images", $this->user['name_short']) )]) . '" ' . _s('by %u', ['%u' => $this->user['name']]),
 				'url' => $this->user['url']
 		));
 		$this->setLogo(array(
@@ -149,7 +139,7 @@ class Rss implements FeedModule {
 
 	public function addImage(Array $image) {
 		$item = $this->channel->appendNode('item');
-		$item->appendNode('title', $image['name']);
+		$item->appendNode('title', $image['title']);
 		$item->appendNode('link', $image['url_viewer']);
 		$item->appendNode('description', $image['description']);
 		$item->appendNode('description', $image['description'], array('type' => 'plain'), 'media');

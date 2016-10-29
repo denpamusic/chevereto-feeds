@@ -165,10 +165,10 @@ class Atom implements FeedModule {
 			}
 		}
 */
-		if ( isset($image['category']) ) {
+		if ( isset($image['category']) && !is_null( $image['category']['id'] ) && !is_null( $image['category']['name'] ) ) {
 			$entry->appendNode('category', array(
-				'term' => $image['category_id'],
-				'label' => $image['category']
+				'term' => $image['category']['id'],
+				'label' => $image['category']['name']
 			));
 		}
 

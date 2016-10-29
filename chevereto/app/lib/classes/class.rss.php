@@ -167,20 +167,27 @@ class Rss implements FeedModule {
 		if ( (bool)($image['chain'] & 1) ) { // mask 0001  check for thumbnail
 			$item->appendNode('thumbnail', '', array(
 				'url' => $image['thumb']['url'],
-				'width' => $image['thumb']['width'],
-				'height' => round( $image['thumb']['width'] / $image['thumb']['ratio'] )
+				'width' => getSetting('upload_thumb_width'),
+				'height' => getSetting('upload_thumb_height')
 			), 'media');
 		}
 
 		if ( (bool)($image['chain'] & 2) ) { // mask 0010  check for medium
+			$medium_size = getSetting('upload_medium_size');
+			$medium_fixed_dimension = getSetting('upload_medium_fixed_dimension');
+
+			$image_medium_options = [];
+			$image_medium_options[$medium_fixed_dimension] = $medium_size;
+			$image_ratio = $medium_fixed_dimension == 'width' ? (double)($image['height']/$image['width']) : (double)($image['width']/$image['height']);
+
 			$group->appendNode('content', '', array(
 				'url' => $image['medium']['url'],
 				'fileSize' => $image['medium']['size'],
 				'type' => $image['mime'],
 				'medium' => 'image',
 				'isDefault' => 'false',
-				'width' => $image['medium']['width'],
-				'height' => round( $image['medium']['width'] / $image['medium']['ratio'] )
+				'width' => getSetting('upload_medium_size'),
+				'height' => round( $image[$medium_fixed_dimension] * $image_ratio ),
 			), 'media');
 		}
 
@@ -197,7 +204,7 @@ class Rss implements FeedModule {
 				'medium' => 'image',
 				'isDefault' => 'true',
 				'width' => $image['width'],
-				'height' => round( $image['width'] / $image['ratio'] )
+				'height' => $image['height'],
 			), 'media');
 		}
 
